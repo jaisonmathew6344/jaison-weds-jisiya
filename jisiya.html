@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
-<script>document.documentElement.classList.add('js');</script>
+<script>document.documentElement.classList.add('js','locked');try{history.scrollRestoration='manual'}catch(e){}</script>
 <style>
 /* Written in the stars: a night sky that warps, gathers into the couple's portrait, and scatters into the sky you scroll through. Single dark look by design. */
 :root{
@@ -28,7 +28,8 @@
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--hi);font-family:var(--serif);font-size:18px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-variant-numeric:lining-nums}
-.js body.locked{overflow:hidden;height:100%;touch-action:none}
+html.locked,html.locked body{overflow:hidden!important;height:100%;overscroll-behavior:none}
+html.locked body{position:fixed;inset:0;width:100%;touch-action:none}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--hi);outline-offset:4px;border-radius:4px}
 img{display:block}
@@ -935,10 +936,15 @@ html,body{overflow-x:clip}
     const mw = mono.w || 1;
     P.forEach(p => { p.d2 = (p.hx / mw) * 1.5 + Math.random() * .35; });
     mode = reduce ? 'live' : 'form'; t0 = performance.now();
-    root.classList.add('live'); body.classList.remove('locked');
+    root.classList.add('live'); root.classList.remove('locked'); body.classList.remove('locked');
     setTimeout(() => { gate.hidden = true; }, 900);
   }
-  body.classList.add('locked');
+  root.classList.add('locked'); scrollTo(0, 0);
+  // nothing behind the envelope can be scrolled until the seal is opened
+  const blockScroll = e => { if (root.classList.contains('locked') && !e.target.closest('#music')) e.preventDefault(); };
+  addEventListener('touchmove', blockScroll, { passive: false });
+  addEventListener('wheel', blockScroll, { passive: false });
+  addEventListener('keydown', e => { if (root.classList.contains('locked') && ['ArrowDown','ArrowUp','PageDown','PageUp',' ','End','Home'].includes(e.key) && e.target === document.body) e.preventDefault(); });
 
   /* ---------- scroll scenes ---------- */
   const souls = document.getElementById('souls'), starL = document.getElementById('starL'), starR = document.getElementById('starR');
@@ -1114,7 +1120,7 @@ html,body{overflow-x:clip}
   /* ---------- replay ---------- */
   document.getElementById('replay').addEventListener('click', () => {
     scrollTo({ top: 0, behavior: 'instant' });
-    root.classList.remove('live'); body.classList.add('locked');
+    root.classList.remove('live'); root.classList.add('locked');
     gate.hidden = false; void gate.offsetWidth; gate.classList.remove('gone');
     gate.classList.remove('opening'); env.className = 'env'; opening = false; mode = 'idle';
     // reset the surprises so they can be enjoyed again
