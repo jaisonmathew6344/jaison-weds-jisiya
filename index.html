@@ -642,9 +642,26 @@ html.ml .scrollhint{font-size:15px}
 .dc-lab{margin:0;font-family:var(--caps);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
 .dcount .cd{max-width:420px}
 .dcount .num{font-size:clamp(22px,6.4vw,36px)}
-#dateScene{height:210svh!important}
+#dateScene{height:190svh!important}
 @media (max-height:720px){.dbox{padding:26px 18px 22px}.dcount{margin-top:8px}.dcount .cell{transform:scale(.9)}}
 
+/* satin cloth unveiling */
+.dbox{overflow:visible}
+.cloth{position:absolute;inset:-4px;z-index:5;pointer-events:none;display:flex;perspective:900px}
+.cloth i{position:relative;flex:1 1 0;height:100%;margin-right:-1.5px;transform-origin:50% 0;will-change:transform,opacity;
+  transform:translateY(calc(var(--d,0) * 120%)) rotateX(calc(var(--d,0) * 38deg)) skewX(calc(var(--sw,0) * 1deg));opacity:calc(1 - var(--d,0) * var(--d,0));
+  background:
+   linear-gradient(105deg,transparent calc(var(--sh,0) * 160% - 70%),rgba(255,255,255,.55) calc(var(--sh,0) * 160% - 58%),rgba(255,255,255,.95) calc(var(--sh,0) * 160% - 54%),rgba(255,255,255,.4) calc(var(--sh,0) * 160% - 50%),transparent calc(var(--sh,0) * 160% - 38%)),
+   linear-gradient(90deg,rgba(0,0,0,.45) 0%,rgba(255,255,255,.22) 7%,rgba(0,0,0,.2) 15%,rgba(255,255,255,.3) 24%,rgba(255,255,255,.08) 31%,rgba(0,0,0,.28) 40%,rgba(255,255,255,.26) 50%,rgba(0,0,0,.18) 58%,rgba(255,255,255,.34) 67%,rgba(0,0,0,.25) 77%,rgba(255,255,255,.2) 86%,rgba(0,0,0,.45) 100%),
+   linear-gradient(180deg,rgba(255,255,255,.18),transparent 30%,rgba(0,0,0,.35)),
+   linear-gradient(160deg,var(--door1),var(--door2));
+  background-size:900% 100%,900% 100%,100% 100%,100% 100%;background-position:calc(var(--k) * 12.5%) 0,calc(var(--k) * 12.5%) 0,0 0,0 0;
+  box-shadow:0 18px 30px -16px rgba(0,0,0,.7)}
+.cloth i::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:9px;
+  background:repeating-linear-gradient(90deg,#f3dc9a 0 2px,#a8822f 2px 3px,transparent 3px 5px);-webkit-mask:linear-gradient(#000,rgba(0,0,0,.4));mask:linear-gradient(#000,rgba(0,0,0,.4))}
+.cloth i:first-child{border-radius:10px 0 0 0}.cloth i:last-child{border-radius:0 10px 0 0}
+.dtext{-webkit-clip-path:none!important;clip-path:none!important}
+.dstar{display:none!important}
 /* 2. two stars become the rings */
 #find{height:175svh;padding:0!important}
 .find-pin{position:sticky;top:0;min-height:100svh;display:grid;align-content:center;justify-items:center;gap:6px}
@@ -750,20 +767,13 @@ body{font-weight:600}
   <section id="dateScene" aria-label="Save the date: Monday, 25 January 2027 at 3:00 PM">
     <div class="date-pin">
       <p class="label" data-ml="ഈ ദിനം ഓർത്തുവയ്ക്കുക">Save the date</p>
-      <div class="dbox" id="dbox"><span class="dglow" aria-hidden="true"></span><svg class="dframe" viewBox="0 0 320 210" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><rect class="df" pathLength="1" x="6" y="6" width="308" height="198" rx="10" stroke-width="1.4"/><rect class="df" pathLength="1" x="14" y="14" width="292" height="182" rx="6" stroke-width=".7" opacity=".6"/></g></svg><svg class="dorn" viewBox="0 0 160 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 13H54M106 13H158"/><path d="M54 13c7 0 9-8 16-8M106 13c-7 0-9-8-16-8"/><path d="M54 13c7 0 9 8 16 8M106 13c-7 0-9 8-16 8" opacity=".6"/></g><g fill="currentColor"><path d="M80 2l8 11-8 11-8-11z"/><circle cx="66" cy="13" r="2"/><circle cx="94" cy="13" r="2"/></g></svg>
+      <div class="dbox" id="dbox"><span class="dglow" aria-hidden="true"></span><span class="cloth" id="cloth" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i><i style="--k:8"></i></span><svg class="dframe" viewBox="0 0 320 210" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><rect class="df" pathLength="1" x="6" y="6" width="308" height="198" rx="10" stroke-width="1.4"/><rect class="df" pathLength="1" x="14" y="14" width="292" height="182" rx="6" stroke-width=".7" opacity=".6"/></g></svg><svg class="dorn" viewBox="0 0 160 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 13H54M106 13H158"/><path d="M54 13c7 0 9-8 16-8M106 13c-7 0-9-8-16-8"/><path d="M54 13c7 0 9 8 16 8M106 13c-7 0-9 8-16 8" opacity=".6"/></g><g fill="currentColor"><path d="M80 2l8 11-8 11-8-11z"/><circle cx="66" cy="13" r="2"/><circle cx="94" cy="13" r="2"/></g></svg>
       <div class="dwrite" id="dwrite" role="img" aria-label="25 January 2027">
         <p class="dtext foil" id="dtext" data-ml="2027 ജനുവരി 25">25 January 2027</p>
         <span class="dstar" id="dstar" aria-hidden="true"></span>
       </div>
       <p class="cal-time" data-ml="തിങ്കളാഴ്ച · ഉച്ചകഴിഞ്ഞ് 3:00">Monday · 3:00 PM</p>
       <p class="cal-note" data-ml="വിശുദ്ധ വിവാഹ കൂദാശ">The Holy Matrimony</p></div>
-      <div class="dcount"><p class="dc-lab" data-ml="കാത്തിരിപ്പ് തുടങ്ങിക്കഴിഞ്ഞു">The countdown has begun</p>
-      <div class="cd" id="cd">
-        <div class="cell"><b class="num" id="cdD"><span>--</span></b><span class="unit" data-ml="ദിവസം">DAYS</span></div>
-        <div class="cell"><b class="num" id="cdH"><span>--</span></b><span class="unit" data-ml="മണിക്കൂർ">HOURS</span></div>
-        <div class="cell"><b class="num" id="cdM"><span>--</span></b><span class="unit" data-ml="മിനിറ്റ്">MINS</span></div>
-        <div class="cell"><b class="num" id="cdS"><span>--</span></b><span class="unit" data-ml="സെക്കൻഡ്">SECS</span></div>
-      </div>
       </div>
     </div>
   </section>
@@ -835,6 +845,20 @@ body{font-weight:600}
     </div>
   </section>
 
+
+  <div class="link" aria-hidden="true"><i></i><b></b></div>
+  <section class="band" id="count">
+    <div class="wrap">
+      <p class="label" data-rv data-ml="കാത്തിരിപ്പ് തുടങ്ങിക്കഴിഞ്ഞു">The countdown has begun</p>
+      <div class="cd" id="cd" data-rv>
+        <div class="cell"><b class="num" id="cdD"><span>--</span></b><span class="unit" data-ml="ദിവസം">DAYS</span></div>
+        <div class="cell"><b class="num" id="cdH"><span>--</span></b><span class="unit" data-ml="മണിക്കൂർ">HOURS</span></div>
+        <div class="cell"><b class="num" id="cdM"><span>--</span></b><span class="unit" data-ml="മിനിറ്റ്">MINS</span></div>
+        <div class="cell"><b class="num" id="cdS"><span>--</span></b><span class="unit" data-ml="സെക്കൻഡ്">SECS</span></div>
+      </div>
+      <p class="tip" data-rv data-ml="പായുന്ന വാൽനക്ഷത്രത്തെ തൊട്ടു പിടിക്കാമോ?">Psst… tap a shooting star to catch it</p>
+    </div>
+  </section>
 
   <div class="link" aria-hidden="true"><i></i><b></b></div>
   <section class="band" id="find">
@@ -1397,26 +1421,27 @@ body{font-weight:600}
   const calTime = document.querySelector('.cal-time'), calNote = document.querySelector('.cal-note');
   let calBurst = false, ringBurst = false, eventsOpen = false, finLit = false;
   const rStarA = document.querySelector('.rstar.a'), rStarB = document.querySelector('.rstar.b');
-  const dbox = document.getElementById('dbox'), dcount = document.querySelector('.dcount');
+  const dbox = document.getElementById('dbox'), cloth = document.getElementById('cloth');
   const doveL = document.querySelector('.dove.l'), doveR = document.querySelector('.dove.r'), ribbon = document.getElementById('ribbon'); let ribBurst = false;
   function scrollScenes() {
     // 1. a shooting star dives in, then writes the date in light
     const tD = RC.tD, dw = document.getElementById('dwrite'), dt = document.getElementById('dtext'), ds = document.getElementById('dstar');
-    const dW = dw.offsetWidth, dH = dw.offsetHeight, tl = dt.offsetLeft, tw = dt.offsetWidth, my2 = dt.offsetTop + dt.offsetHeight * .55;
-    const inK = ease(clamp(tD / .12, 0, 1)), wr = clamp((tD - .12) / .42, 0, 1), we = wr;
-    let sx2, sy2;
-    if (wr <= 0) { sx2 = -innerWidth * .3 + (tl + innerWidth * .3) * inK; sy2 = -innerHeight * .35 + (my2 + innerHeight * .35) * inK; }
-    else { sx2 = tl + tw * we; sy2 = my2 + Math.sin(we * Math.PI * 4) * dH * .06; }
-    const sOp = tD <= .005 ? 0 : wr >= 1 ? Math.max(0, 1 - (tD - .54) / .06) : 1;
-    ds.style.transform = `translate(${sx2.toFixed(1)}px,${sy2.toFixed(1)}px) rotate(${(tD * 400).toFixed(0)}deg)`; ds.style.opacity = sOp.toFixed(3);
-    setIf(ds, '--tl', (wr <= 0 ? inK > 0 && inK < 1 ? .9 : 0 : wr < 1 ? .6 : 0).toFixed(2));
-    setIf(ds, '--ta', (wr <= 0 ? -35 - tD * 400 : -tD * 400).toFixed(0) + 'deg');
-    setIf(dt, '--w', clamp(we - .01, 0, 1).toFixed(3));
-    if (sOp > .05 && !reduce) { const br = dw.getBoundingClientRect(); for (let k = 0; k < 4; k++) sparks.push({ x: br.left + sx2 + (Math.random() - .5) * 10, y: br.top + sy2 + (Math.random() - .5) * 10, vx: (Math.random() - .5) * 1.2, vy: Math.random() * .8 - .2, r: .9 + Math.random() * 2, life: 30 + Math.random() * 40, c: TSPK[(Math.random() * TSPK.length) | 0], ng: 1, st: Math.random() < .7, ph: Math.random() * 6 }); }
-    const co = clamp((tD - .58) / .1, 0, 1); setIf(calTime, '--o', co.toFixed(3)); setIf(calNote, '--o', co.toFixed(3));
+    // the satin cloth: its sheen sweeps across, then it slides down in soft ripples; stars sparkle on the revealed date
+    const strips = cloth.children, n2 = strips.length, now2 = performance.now();
+    setIf(cloth, '--sh', clamp(tD / .22, 0, 1).toFixed(3));
+    const fall = clamp((tD - .18) / .4, 0, 1);
+    for (let k = 0; k < n2; k++) {
+      const off = Math.abs(k - (n2 - 1) / 2) / ((n2 - 1) / 2);            // the middle falls first, the edges follow
+      const d = clamp((fall - off * .16) / .84, 0, 1), de = d * d * (3 - 2 * d);
+      setIf(strips[k], '--d', de.toFixed(3));
+      setIf(strips[k], '--sw', (Math.sin(now2 / 700 + k * .9) * 4 * de * (1 - de) * 4).toFixed(2));
+    }
+    const rev = clamp((tD - .26) / .36, 0, 1);
+    if (rev > 0 && rev < 1 && !reduce) { const br = dt.getBoundingClientRect(); for (let k = 0; k < 3; k++) sparks.push({ x: br.left + Math.random() * br.width, y: br.top + br.height * (.15 + Math.random() * .7), vx: (Math.random() - .5) * .6, vy: -Math.random() * .6, r: .9 + Math.random() * 2.2, life: 30 + Math.random() * 40, c: TSPK[(Math.random() * TSPK.length) | 0], ng: 1, st: Math.random() < .8, ph: Math.random() * 6 }); }
+    const wr = fall;
+    const co = clamp((tD - .55) / .12, 0, 1); setIf(calTime, '--o', co.toFixed(3)); setIf(calNote, '--o', co.toFixed(3));
     setIf(dbox, '--fr', ease(clamp(tD / .2, 0, 1)).toFixed(3)); setIf(dbox, '--gl', clamp((tD - .45) / .2, 0, 1).toFixed(3));
-    setIf(dcount, '--cdo', ease(clamp((tD - .7) / .15, 0, 1)).toFixed(3));
-    if (wr >= 1 && !calBurst) { calBurst = true; const br = dw.getBoundingClientRect(); burstAt(br.left + tl + tw, br.top + my2, 80, 4); chime(false); }
+    if (wr >= 1 && !calBurst) { calBurst = true; const br = dt.getBoundingClientRect(); burstAt(br.left + br.width / 2, br.top + br.height / 2, 110, 5); chime(false); }
     if (tD < .55) calBurst = false;
     // 2. rings: two stars fly in, flash into rings, the rings link, the cross rises
     const tR = RC.tR; window.__ringP = tR;
