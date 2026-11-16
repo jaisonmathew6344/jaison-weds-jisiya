@@ -116,7 +116,7 @@ html,body{overflow-x:clip}
 .bishop{margin:8px 0 0;display:grid;gap:2px;max-width:min(42ch,100%)}
 .bishop small{font-family:var(--caps);font-size:12px;letter-spacing:.22em;color:var(--accent);padding-left:.3em}
 .bishop b{font-weight:700;font-size:clamp(23px,6.2vw,30px);line-height:1.25;color:var(--silver);white-space:nowrap;margin:2px 0 4px;display:inline-block}
-.note .hg{font-weight:700;color:var(--silver);font-size:1.08em}
+.note .hg{display:inline-block;white-space:nowrap;font-family:var(--display);font-weight:700;font-size:1.12em;line-height:1.5;margin:3px 0;color:#e9cf8f;text-shadow:0 0 12px rgba(233,207,143,.25)}
 .bishop span{color:var(--hi);font-size:17.5px}
 .bigdate{font-family:var(--caps);font-size:clamp(18px,5.2vw,26px);letter-spacing:.14em;color:var(--hi);margin:10px 0 0;padding-left:.14em}
 .sub{font-family:var(--caps);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:0;padding-left:.3em}
@@ -663,7 +663,7 @@ html.ml .scrollhint{font-size:15px}
 .fin-pin .candle{transform:scale(.82);transform-origin:50% 100%;margin-top:-20px}
 .fin-after{padding:10px 16px clamp(90px,16vh,160px);display:grid;justify-items:center;gap:18px}
 .doves{position:absolute;inset:0;pointer-events:none;z-index:4}
-.ribbon-slot{height:50px}
+.ribbon-slot,.doves{display:none!important}
 .dove{position:absolute;left:0;top:0;width:76px;height:76px;margin:-38px 0 0 -38px;opacity:0;will-change:transform;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.12' stop-color='%23fff' stop-opacity='.95'/%3E%3Cstop offset='.35' stop-color='%23ffe9b0' stop-opacity='.35'/%3E%3Cstop offset='1' stop-color='%23ffe9b0' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle r='34' fill='url(%23g)'/%3E%3Cpath d='M0-50L2-2 50 0 2 2 0 50-2 2-50 0-2-2z' fill='%23fff'/%3E%3Cpath d='M-20-20L1-1 20 20-1 1zM20-20L1 1-20 20-1-1z' fill='%23fff' opacity='.55'/%3E%3C/svg%3E") center/contain no-repeat}
 .dove svg{display:block;width:100%;height:auto;overflow:visible}
 .dove .wf,.dove .wb{transform-box:fill-box;transform-origin:50% 100%;animation:flap .42s ease-in-out infinite alternate}
@@ -675,7 +675,6 @@ html.ml .scrollhint{font-size:15px}
   -webkit-clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);
   box-shadow:0 8px 18px -8px rgba(0,0,0,.6)}
 .ribbon span{font-family:var(--display);font-weight:600;font-size:clamp(16px,4.4vw,20px);white-space:nowrap;padding:0 18px;opacity:var(--u,0)}
-.candle-wrap .candle-thanks{display:none!important}
 .candle .hand{display:none!important}
 .candle-wrap .candle-thanks{opacity:var(--th,0);transform:translateY(calc((1 - var(--th,0)) * 10px));transition:none}
 
@@ -867,7 +866,7 @@ body{font-weight:600}
             <div class="fact"><dt data-ml="സമയം">TIME</dt><dd data-ml="ഉച്ചകഴിഞ്ഞ് 3:00">3:00 PM</dd></div>
             <div class="fact"><dt data-ml="ദേവാലയം">CHURCH</dt><dd data-ml="സെന്റ് ജോർജ് ഓർത്തഡോക്സ് വലിയപള്ളി, വടപുറം">St. George Orthodox Valiyapalli, Vadapuram</dd></div>
           </dl>
-          <p class="note" data-ml="അഭിവന്ദ്യ ഗീവർഗീസ് മാർ പക്കോമിയോസ് മെത്രാപ്പോലീത്ത (മലബാർ ഭദ്രാസനാധിപൻ, മലങ്കര ഓർത്തഡോക്സ് സുറിയാനി സഭ) തിരുമേനിയുടെ അനുഗ്രഹാശിസ്സുകളോടെ നടത്തപ്പെടുന്നു">Solemnised with the blessings of <b class="hg">His Grace Geevarghese Mar&nbsp;Pachomios Metropolitan</b>, Diocese of Malabar, Malankara Orthodox Syrian Church</p>
+          <p class="note" data-ml="അഭിവന്ദ്യ ഗീവർഗീസ് മാർ പക്കോമിയോസ് മെത്രാപ്പോലീത്ത (മലബാർ ഭദ്രാസനാധിപൻ, മലങ്കര ഓർത്തഡോക്സ് സുറിയാനി സഭ) തിരുമേനിയുടെ അനുഗ്രഹാശിസ്സുകളോടെ നടത്തപ്പെടുന്നു">Solemnised with the blessings of<br><b class="hg">His Grace Geevarghese Mar Pachomios</b><br>Metropolitan, Diocese of Malabar,<br>Malankara Orthodox Syrian Church</p>
           <div class="actions">
             <a class="btn solid" href="https://www.google.com/maps/search/?api=1&amp;query=St.+George+Orthodox+Valiyapalli+Vadapuram" target="_blank" rel="noopener" data-ml="വഴി കാണുക">DIRECTIONS</a>
             <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Wedding+of+Jisiya+%26+Jaison&amp;dates=20270125T093000Z/20270125T143000Z&amp;location=St.+George+Orthodox+Valiyapalli%2C+Vadapuram&amp;details=Holy+Matrimony+at+3%3A00+PM%2C+followed+by+the+reception+at+5%3A00+PM+in+the+Parish+Hall." target="_blank" rel="noopener" data-ml="കലണ്ടറിൽ ചേർക്കുക">ADD TO CALENDAR</a>
@@ -1148,16 +1147,16 @@ body{font-weight:600}
     const ca = (1 - hs) * (mode === 'form' ? clamp((formT - 1.2) / 1.4, 0, 1) : 1);
     if (ca > .01 && mono.glyphs) {
       const gr = ctx.createLinearGradient(ox, oy, ox + mono.w * sc, oy + mono.h * sc);
-      gr.addColorStop(0, MA); gr.addColorStop(.3, '#ffffff'); gr.addColorStop(.5, MA); gr.addColorStop(.72, MS); gr.addColorStop(.86, '#ffffff'); gr.addColorStop(1, MA);
-      ctx.save(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = .82 * ca; ctx.fillStyle = gr;
-      ctx.shadowColor = `rgba(${STAR},.55)`; ctx.shadowBlur = 16; ctx.textBaseline = 'alphabetic';
+      gr.addColorStop(0, MA); gr.addColorStop(.3, MS); gr.addColorStop(.5, MA); gr.addColorStop(.72, MS); gr.addColorStop(.86, '#f4f1ea'); gr.addColorStop(1, MA);
+      ctx.save(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = .62 * ca; ctx.fillStyle = gr;
+      ctx.shadowColor = `rgba(${STAR},.28)`; ctx.shadowBlur = 8; ctx.textBaseline = 'alphabetic';
       for (const [gsz, gwt, ch, gx, gy] of mono.glyphs) { ctx.font = `${gwt} ${gsz * sc}px "Playfair Display", "Bodoni 72", Didot, Georgia, serif`; ctx.fillText(ch, ox + gx * sc, oy + gy * sc); }
       ctx.restore();
     }
     ctx.fillStyle = `rgb(${STAR})`;
-    for (let b = 1; b < BINS; b++) { ctx.globalAlpha = (b + .5) / BINS * (1 - .62 * ca); ctx.fill(paths[b]); }
-    ctx.globalAlpha = .25; ctx.fill(big);
-    for (let j = 0; j < jewels.length; j += 4) { ctx.globalAlpha = Math.min(1, jewels[j + 3]); const s2 = jewels[j + 2]; ctx.drawImage(glowS, jewels[j] - s2 / 2, jewels[j + 1] - s2 / 2, s2, s2); }
+    for (let b = 1; b < BINS; b++) { ctx.globalAlpha = (b + .5) / BINS * (1 - .7 * ca) * .55; ctx.fill(paths[b]); }
+    ctx.globalAlpha = .25 * (1 - .5 * (1 - hs)); ctx.fill(big);
+    for (let j = 0; j < jewels.length; j += 4) { ctx.globalAlpha = Math.min(1, jewels[j + 3]) * .45; const s2 = jewels[j + 2]; ctx.drawImage(glowS, jewels[j] - s2 / 2, jewels[j + 1] - s2 / 2, s2, s2); }
     if (trailOn) { ctx.globalAlpha = .32 * Math.sin(hs * Math.PI); ctx.strokeStyle = `rgb(${STAR})`; ctx.lineWidth = .9; ctx.lineCap = 'round'; ctx.stroke(trail); }
     if (hs > 0 && hs < .32 && !reduce) {
       const fa = Math.sin(hs / .32 * Math.PI) * .5, fr2 = mono.w * sc * (.6 + hs * 1.6);
@@ -1667,7 +1666,9 @@ body{font-weight:600}
   /* His Grace's name on the opening screen: always one line, as large as fits */
   const fitHG = () => { const b = document.querySelector('#hero .bishop b'); if (!b) return; b.style.fontSize = '';
     const max = Math.min(innerWidth - 28, 560), w = b.scrollWidth; if (w > max) b.style.fontSize = (parseFloat(getComputedStyle(b).fontSize) * max / w).toFixed(2) + 'px'; };
-  fitHG(); addEventListener('resize', fitHG); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHG);
+  const fitNote = () => document.querySelectorAll('.note .hg').forEach(b => { b.style.fontSize = ''; const max = b.parentElement.clientWidth - 4, w = b.scrollWidth; if (w > max) b.style.fontSize = (parseFloat(getComputedStyle(b).fontSize) * max / w).toFixed(2) + 'px'; });
+  const fitAll = () => { fitHG(); fitNote(); };
+  fitAll(); addEventListener('resize', fitAll); addEventListener('load', fitAll); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
 
   /* ---------- guides ---------- */
   const sHint = document.getElementById('scrollHint'); let hintReady = false, hintGone = false, idleT = 0;
