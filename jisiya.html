@@ -115,7 +115,8 @@ html,body{overflow-x:clip}
 .celebrate{margin:0;font-size:clamp(20px,5vw,24px)}
 .bishop{margin:8px 0 0;display:grid;gap:2px;max-width:min(42ch,100%)}
 .bishop small{font-family:var(--caps);font-size:12px;letter-spacing:.22em;color:var(--accent);padding-left:.3em}
-.bishop b{font-weight:600;font-size:clamp(23px,6.2vw,30px);line-height:1.25;color:var(--silver);text-wrap:balance;margin:2px 0 4px}
+.bishop b{font-weight:700;font-size:clamp(23px,6.2vw,30px);line-height:1.25;color:var(--silver);white-space:nowrap;margin:2px 0 4px;display:inline-block}
+.note .hg{font-weight:700;color:var(--silver);font-size:1.08em}
 .bishop span{color:var(--hi);font-size:17.5px}
 .bigdate{font-family:var(--caps);font-size:clamp(18px,5.2vw,26px);letter-spacing:.14em;color:var(--hi);margin:10px 0 0;padding-left:.14em}
 .sub{font-family:var(--caps);font-size:12.5px;letter-spacing:.2em;color:var(--muted);margin:0;padding-left:.3em}
@@ -367,7 +368,11 @@ main .fact dd{-webkit-user-select:text;user-select:text}
 #finale{min-height:100svh;display:grid;align-content:center}
 #heartBox{width:min(80vw,420px);aspect-ratio:1.1;position:relative;display:grid;place-items:center}
 .church{width:46%;height:auto;margin-top:6%;color:var(--hi);overflow:visible;filter:drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 18px var(--glow))}
-.church path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:var(--c,1)}
+.church .ch-fill{opacity:var(--lit,0)}
+.church .ch-fill path,.church .ch-fill circle,.church .ch-fill ellipse{stroke:none;stroke-dasharray:none}
+.church .ch-glow{animation:chflick 3.4s ease-in-out infinite}
+@keyframes chflick{0%,100%{opacity:1}45%{opacity:.82}60%{opacity:.95}}
+.church>path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:var(--c,1)}
 .fin{font-family:var(--script);font-size:clamp(46px,12vw,80px);line-height:1;margin:0;padding:0 .15em}
 .fin-line{max-width:30ch;margin:0;text-wrap:balance;font-size:clamp(20px,5vw,24px)}
 
@@ -545,7 +550,11 @@ body{font-weight:500}
 .scrollhint{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:8;transform:translate(-50%,20px);opacity:0;pointer-events:none;
   display:flex;align-items:center;gap:9px;padding:8px 16px 8px 10px;border-radius:999px;background:rgba(0,0,0,.3);border:1px solid rgba(var(--edge),.55);
   font-family:var(--caps);font-weight:600;font-size:13px;letter-spacing:.2em;color:var(--hi);transition:opacity .6s,transform .6s;white-space:nowrap}
-.scrollhint.show{opacity:.62;transform:translate(-50%,0)}
+.scrollhint.show{opacity:.7;transform:translate(-50%,0)}
+.scrollhint{bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;padding:7px 9px!important;gap:4px!important}
+.scrollhint .sh-t{display:none}
+.scrollhint .sh-hand{width:24px!important;height:24px!important}
+.at-top .scrollhint .sh-t{display:inline}
 .scrollhint .sh-hand{width:30px;height:30px;color:#fff;animation:swipeup 1.8s ease-in-out infinite}
 .scrollhint .sh-hand svg{width:100%;height:100%;display:block}
 @keyframes swipeup{0%{transform:translateY(8px);opacity:0}25%{opacity:1}70%{transform:translateY(-8px);opacity:1}100%{transform:translateY(-10px);opacity:0}}
@@ -607,6 +616,69 @@ html.ml .ml-close{margin-top:14px}
 html.ml .scrollhint{font-size:15px}
 .family .ml-close{max-width:30ch}
 
+/* ===================== scroll scenes ===================== */
+#gift[hidden],#giftTip[hidden],.candle-msg[hidden]{display:none!important}
+/* 1. a shooting star writes the date */
+#dateScene{position:relative;height:175svh}
+.date-pin{position:sticky;top:0;height:100svh;display:grid;align-content:center;justify-items:center;gap:14px;padding:0 16px;text-align:center}
+.dwrite{position:relative;padding:18px 6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.dtext{margin:0;font-family:var(--display);font-weight:600;font-size:clamp(28px,10.4vw,64px);line-height:1.15;white-space:nowrap;padding:0 .1em;
+  -webkit-clip-path:inset(-30% calc((1 - var(--w,0)) * 100%) -30% 0);clip-path:inset(-30% calc((1 - var(--w,0)) * 100%) -30% 0)}
+.dstar{position:absolute;left:0;top:0;width:84px;height:84px;margin:-42px 0 0 -42px;pointer-events:none;opacity:0;z-index:2;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.12' stop-color='%23fff' stop-opacity='.95'/%3E%3Cstop offset='.35' stop-color='%23fff' stop-opacity='.3'/%3E%3Cstop offset='1' stop-color='%23fff' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle r='34' fill='url(%23g)'/%3E%3Cpath d='M0-50L2-2 50 0 2 2 0 50-2 2-50 0-2-2z' fill='%23fff'/%3E%3Cpath d='M-20-20L1-1 20 20-1 1zM20-20L1 1-20 20-1-1z' fill='%23fff' opacity='.55'/%3E%3C/svg%3E") center/contain no-repeat}
+.dstar::after{content:"";position:absolute;right:50%;top:50%;width:150px;height:2px;margin-top:-1px;transform-origin:100% 50%;transform:rotate(var(--ta,0deg));
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.85));border-radius:2px;opacity:var(--tl,0)}
+.cal-time{margin:2px 0 0;font-family:var(--display);font-weight:600;font-size:clamp(22px,6vw,30px);color:var(--hi);opacity:var(--o,0);transform:translateY(calc((1 - var(--o,0)) * 12px))}
+.cal-note{margin:0;font-family:var(--caps);font-weight:600;font-size:13.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);opacity:var(--o,0)}
+
+.dbox{position:relative;display:grid;justify-items:center;gap:8px;padding:clamp(34px,8vw,46px) clamp(22px,6vw,40px) clamp(30px,7vw,40px);width:min(92vw,460px);color:var(--silver)}
+.dframe{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.dframe .df{stroke-dasharray:1;stroke-dashoffset:calc(1 - var(--fr,0))}
+.dorn{display:block;width:clamp(110px,34vw,150px);height:auto;opacity:var(--fr,0);color:var(--silver)}
+.dorn.b{margin-top:8px}.dorn.b svg{display:block;width:100%;height:auto;transform:scaleY(-1)}
+.dbox>.dorn{position:absolute;top:-12px;left:50%;transform:translateX(-50%)}
+.dglow{position:absolute;left:50%;top:42%;width:150%;aspect-ratio:1.6;transform:translate(-50%,-50%) scale(calc(.6 + var(--gl,0) * .4));opacity:var(--gl,0);pointer-events:none;
+  background:radial-gradient(closest-side,var(--glow),transparent);border-radius:50%}
+.dcount{display:grid;justify-items:center;gap:10px;width:min(92vw,460px);margin-top:14px;opacity:var(--cdo,0);transform:translateY(calc((1 - var(--cdo,0)) * 16px))}
+.dc-lab{margin:0;font-family:var(--caps);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.dcount .cd{max-width:420px}
+.dcount .num{font-size:clamp(22px,6.4vw,36px)}
+#dateScene{height:210svh!important}
+@media (max-height:720px){.dbox{padding:26px 18px 22px}.dcount{margin-top:8px}.dcount .cell{transform:scale(.9)}}
+
+/* 2. two stars become the rings */
+#find{height:175svh;padding:0!important}
+.find-pin{position:sticky;top:0;min-height:100svh;display:grid;align-content:center;justify-items:center;gap:6px}
+.rings .hand,.rings .door-hint{display:none!important}
+.rstar{position:absolute;left:0;top:0;width:72px;height:72px;margin:-36px 0 0 -36px;z-index:3;pointer-events:none;opacity:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.12' stop-color='%23fff' stop-opacity='.95'/%3E%3Cstop offset='.35' stop-color='%23ffe9b0' stop-opacity='.35'/%3E%3Cstop offset='1' stop-color='%23ffe9b0' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle r='34' fill='url(%23g)'/%3E%3Cpath d='M0-50L2-2 50 0 2 2 0 50-2 2-50 0-2-2z' fill='%23fff'/%3E%3Cpath d='M-20-20L1-1 20 20-1 1zM20-20L1 1-20 20-1-1z' fill='%23fff' opacity='.55'/%3E%3C/svg%3E") center/contain no-repeat}
+.rings-glow,.rings-rays{transition:opacity 1.2s ease,transform 1.6s ease!important}
+
+/* 3. candle, lanterns, stars */
+#finale{height:auto;padding:0!important;min-height:0!important;display:block!important;align-content:normal!important}
+.fin-track{height:180svh;position:relative}
+.fin-pin{position:sticky;top:0;height:100svh;display:grid;align-content:center;justify-items:center;gap:8px;overflow:visible}
+.fin-pin #heartBox{width:min(62vw,300px)}
+.fin-pin .candle-wrap{margin-top:0}
+.fin-pin .candle{transform:scale(.82);transform-origin:50% 100%;margin-top:-20px}
+.fin-after{padding:10px 16px clamp(90px,16vh,160px);display:grid;justify-items:center;gap:18px}
+.doves{position:absolute;inset:0;pointer-events:none;z-index:4}
+.ribbon-slot{height:50px}
+.dove{position:absolute;left:0;top:0;width:76px;height:76px;margin:-38px 0 0 -38px;opacity:0;will-change:transform;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.12' stop-color='%23fff' stop-opacity='.95'/%3E%3Cstop offset='.35' stop-color='%23ffe9b0' stop-opacity='.35'/%3E%3Cstop offset='1' stop-color='%23ffe9b0' stop-opacity='0'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle r='34' fill='url(%23g)'/%3E%3Cpath d='M0-50L2-2 50 0 2 2 0 50-2 2-50 0-2-2z' fill='%23fff'/%3E%3Cpath d='M-20-20L1-1 20 20-1 1zM20-20L1 1-20 20-1-1z' fill='%23fff' opacity='.55'/%3E%3C/svg%3E") center/contain no-repeat}
+.dove svg{display:block;width:100%;height:auto;overflow:visible}
+.dove .wf,.dove .wb{transform-box:fill-box;transform-origin:50% 100%;animation:flap .42s ease-in-out infinite alternate}
+.dove .wb{animation-delay:-.08s}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.42)}}
+.dove.r svg{transform:scaleX(-1)}
+.ribbon{position:absolute;left:0;top:0;height:46px;margin-top:-23px;display:grid;place-items:center;opacity:0;
+  background:linear-gradient(180deg,#f9e6ad,#d8ab52 48%,#b8862c 52%,#e9c97c);color:#3b2a0e;
+  -webkit-clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);
+  box-shadow:0 8px 18px -8px rgba(0,0,0,.6)}
+.ribbon span{font-family:var(--display);font-weight:600;font-size:clamp(16px,4.4vw,20px);white-space:nowrap;padding:0 18px;opacity:var(--u,0)}
+.candle-wrap .candle-thanks{display:none!important}
+.candle .hand{display:none!important}
+.candle-wrap .candle-thanks{opacity:var(--th,0);transform:translateY(calc((1 - var(--th,0)) * 10px));transition:none}
+
 /* bolder, stronger lettering everywhere */
 body{font-weight:600}
 .env-card .cm,.nm,.souls-head h2,.minnu-t,.fin,.star span,.couple-cap .t1,.candle-thanks,.one .t1,.person,.event h3,.compl,.toast span{font-weight:600}
@@ -661,7 +733,7 @@ body{font-weight:600}
     <h1 class="names"><span class="nm foil" style="--d:.4s" data-ml="ജിസിയ">Jisiya</span><span class="amp rise" style="--d:1.6s">&amp;</span><span class="nm foil" style="--d:1.8s" data-ml="ജെയ്സൺ">Jaison</span></h1>
     <p class="celebrate rise" style="--d:3.1s" data-ml="തങ്ങളുടെ വിശുദ്ധ വിവാഹ കൂദാശയിലേക്ക് നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു">invite you to celebrate their Holy Matrimony</p>
     <p class="bishop rise" style="--d:3.5s" data-ml="&lt;b&gt;അഭിവന്ദ്യ ഗീവർഗീസ് മാർ&amp;nbsp;പക്കോമിയോസ് മെത്രാപ്പോലീത്ത&lt;/b&gt;&lt;span&gt;മലബാർ ഭദ്രാസനാധിപൻ&lt;/span&gt;&lt;span&gt;മലങ്കര ഓർത്തഡോക്സ് സുറിയാനി സഭ&lt;/span&gt;&lt;small&gt;തിരുമേനിയുടെ അനുഗ്രഹാശിസ്സുകളോടെ&lt;/small&gt;"><small>WITH THE BLESSINGS OF</small><b>His Grace Geevarghese Mar&nbsp;Pachomios</b><span>Metropolitan, Diocese of Malabar</span><span>Malankara Orthodox Syrian Church</span></p>
-    <div class="gift rise" id="gift" style="--d:3.9s">
+    <div class="gift rise" id="gift" style="--d:3.9s" hidden>
       <div class="gift-face">
         <div class="under" data-ml="2027 ജനുവരി 25"><p class="bigdate">25 January 2027</p><p class="sub" data-ml="തിങ്കളാഴ്ച · ഉച്ചകഴിഞ്ഞ് 3:00">MONDAY · 3:00 PM</p></div>
         <span class="paper l"></span><span class="paper r"></span>
@@ -672,9 +744,30 @@ body{font-weight:600}
       <span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span>
       <svg class="pull-hint" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 7l5 5 5-5"/></svg>
     </div>
-    <p class="tip rise" id="giftTip" style="--d:4.2s" data-ml="ഞങ്ങളുടെ വിവാഹ തീയതി അറിയാൻ റിബൺ താഴേക്ക് വലിക്കുക">Pull the ribbon down to reveal our date</p>
+    <p class="tip rise" id="giftTip" style="--d:4.2s" hidden data-ml="ഞങ്ങളുടെ വിവാഹ തീയതി അറിയാൻ റിബൺ താഴേക്ക് വലിക്കുക">Pull the ribbon down to reveal our date</p>
     <div class="cue rise" style="--d:4.8s" aria-hidden="true"><i></i>SCROLL</div>
     <div class="scrollhint" id="scrollHint" aria-hidden="true"><span class="sh-hand"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span><span class="sh-t" data-ml="താഴേക്ക് നീക്കുക">SCROLL DOWN</span><span class="chev"><i></i><i></i></span></div>
+  </section>
+
+  <section id="dateScene" aria-label="Save the date: Monday, 25 January 2027 at 3:00 PM">
+    <div class="date-pin">
+      <p class="label" data-ml="ഈ ദിനം ഓർത്തുവയ്ക്കുക">Save the date</p>
+      <div class="dbox" id="dbox"><span class="dglow" aria-hidden="true"></span><svg class="dframe" viewBox="0 0 320 210" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round"><rect class="df" pathLength="1" x="6" y="6" width="308" height="198" rx="10" stroke-width="1.4"/><rect class="df" pathLength="1" x="14" y="14" width="292" height="182" rx="6" stroke-width=".7" opacity=".6"/></g></svg><svg class="dorn" viewBox="0 0 160 26" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M2 13H54M106 13H158"/><path d="M54 13c7 0 9-8 16-8M106 13c-7 0-9-8-16-8"/><path d="M54 13c7 0 9 8 16 8M106 13c-7 0-9 8-16 8" opacity=".6"/></g><g fill="currentColor"><path d="M80 2l8 11-8 11-8-11z"/><circle cx="66" cy="13" r="2"/><circle cx="94" cy="13" r="2"/></g></svg>
+      <div class="dwrite" id="dwrite" role="img" aria-label="25 January 2027">
+        <p class="dtext foil" id="dtext" data-ml="2027 ജനുവരി 25">25 January 2027</p>
+        <span class="dstar" id="dstar" aria-hidden="true"></span>
+      </div>
+      <p class="cal-time" data-ml="തിങ്കളാഴ്ച · ഉച്ചകഴിഞ്ഞ് 3:00">Monday · 3:00 PM</p>
+      <p class="cal-note" data-ml="വിശുദ്ധ വിവാഹ കൂദാശ">The Holy Matrimony</p></div>
+      <div class="dcount"><p class="dc-lab" data-ml="കാത്തിരിപ്പ് തുടങ്ങിക്കഴിഞ്ഞു">The countdown has begun</p>
+      <div class="cd" id="cd">
+        <div class="cell"><b class="num" id="cdD"><span>--</span></b><span class="unit" data-ml="ദിവസം">DAYS</span></div>
+        <div class="cell"><b class="num" id="cdH"><span>--</span></b><span class="unit" data-ml="മണിക്കൂർ">HOURS</span></div>
+        <div class="cell"><b class="num" id="cdM"><span>--</span></b><span class="unit" data-ml="മിനിറ്റ്">MINS</span></div>
+        <div class="cell"><b class="num" id="cdS"><span>--</span></b><span class="unit" data-ml="സെക്കൻഡ്">SECS</span></div>
+      </div>
+      </div>
+    </div>
   </section>
 
   <section id="souls" aria-label="Two souls, one star" data-fx="petals">
@@ -744,32 +837,19 @@ body{font-weight:600}
     </div>
   </section>
 
-  <div class="link" aria-hidden="true"><i></i><b></b></div>
-  <section class="band" id="count">
-    <div class="wrap">
-      <p class="label" data-rv data-ml="കാത്തിരിപ്പ് തുടങ്ങിക്കഴിഞ്ഞു">The countdown has begun</p>
-      <div class="cd" id="cd" data-rv>
-        <div class="cell"><b class="num" id="cdD"><span>--</span></b><span class="unit" data-ml="ദിവസം">DAYS</span></div>
-        <div class="cell"><b class="num" id="cdH"><span>--</span></b><span class="unit" data-ml="മണിക്കൂർ">HOURS</span></div>
-        <div class="cell"><b class="num" id="cdM"><span>--</span></b><span class="unit" data-ml="മിനിറ്റ്">MINS</span></div>
-        <div class="cell"><b class="num" id="cdS"><span>--</span></b><span class="unit" data-ml="സെക്കൻഡ്">SECS</span></div>
-      </div>
-      <p class="tip" data-rv data-ml="പായുന്ന വാൽനക്ഷത്രത്തെ തൊട്ടു പിടിക്കാമോ?">Psst… tap a shooting star to catch it</p>
-    </div>
-  </section>
 
   <div class="link" aria-hidden="true"><i></i><b></b></div>
   <section class="band" id="find">
-    <div class="wrap">
+    <div class="wrap find-pin">
       <p class="label" data-rv data-ml="ഞങ്ങളുടെ അരികിലേക്കുള്ള വഴി">Find your way to us</p>
       <h2 class="foil" data-rv style="font-family:var(--display);font-weight:600;font-size:clamp(32px,8.6vw,54px);line-height:1.15;margin:0;padding:0 .14em" data-ml="ഇരുവരും ഒന്നാകുന്നു">Two become one</h2>
       <p class="cite" data-rv data-ml="മത്തായി 19 : 6">MATTHEW 19 : 6</p>
       <button class="rings" id="doors" type="button" aria-label="Join the two rings" data-rv>
-        <span class="rings-stage"><span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span><span class="rings-glow" aria-hidden="true"></span><span class="rings-rays" aria-hidden="true"></span>
+        <span class="rings-stage"><span class="rstar a" aria-hidden="true"></span><span class="rstar b" aria-hidden="true"></span><span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span><span class="rings-glow" aria-hidden="true"></span><span class="rings-rays" aria-hidden="true"></span>
         <svg class="rings-svg" viewBox="-160 -150 320 260" aria-hidden="true"><defs><linearGradient id="gRing" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4cf"/><stop offset=".18" stop-color="#e7c06a"/><stop offset=".4" stop-color="#9a6b1f"/><stop offset=".55" stop-color="#f6dd99"/><stop offset=".75" stop-color="#b8862c"/><stop offset="1" stop-color="#6e4a12"/></linearGradient><linearGradient id="gCross" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d8"/><stop offset=".5" stop-color="#e9c574"/><stop offset="1" stop-color="#b8862c"/></linearGradient><radialGradient id="gGem"><stop offset="0" stop-color="#fff"/><stop offset=".6" stop-color="#eef4ff"/><stop offset="1" stop-color="#b9c9e6"/></radialGradient><radialGradient id="gSpark"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><radialGradient id="gHalo"><stop offset="0" stop-color="#fff6dc" stop-opacity=".55"/><stop offset=".5" stop-color="#f0cf7c" stop-opacity=".16"/><stop offset="1" stop-color="#f0cf7c" stop-opacity="0"/></radialGradient><clipPath id="cOver"><rect x="-16" y="-30" width="32" height="34"/></clipPath></defs><g class="crossG"><circle cx="0" cy="-88" r="46" fill="url(#gHalo)" class="halo"/><path class="cfill" d="M-3 -136h6v26h20v6h-20v54h-6v-54h-20v-6h20z" fill="url(#gCross)"/><path class="cline" pathLength="1" d="M-3 -136h6v26h20v6h-20v54h-6v-54h-20v-6h20z" fill="none" stroke="#fff3cf" stroke-width="1.2" stroke-linejoin="round"/></g><g class="ringA"><g transform="translate(-27 34)"><circle r="50" fill="none" stroke="url(#gRing)" stroke-width="6.5"/><circle r="47" fill="none" stroke="rgba(60,35,5,.45)" stroke-width="1"/><path d="M-44 -24A50 50 0 0 1 -12 -48.5" fill="none" stroke="rgba(255,250,225,.9)" stroke-width="1.4" stroke-linecap="round"/><path d="M40 30A50 50 0 0 1 22 45" fill="none" stroke="rgba(255,245,210,.55)" stroke-width="1" stroke-linecap="round"/></g></g><g class="ringB"><g transform="translate(27 34)"><circle r="50" fill="none" stroke="url(#gRing)" stroke-width="6.5"/><circle r="47" fill="none" stroke="rgba(60,35,5,.45)" stroke-width="1"/><path d="M-44 -24A50 50 0 0 1 -12 -48.5" fill="none" stroke="rgba(255,250,225,.9)" stroke-width="1.4" stroke-linecap="round"/><path d="M40 30A50 50 0 0 1 22 45" fill="none" stroke="rgba(255,245,210,.55)" stroke-width="1" stroke-linecap="round"/><g class="gem"><circle cy="-54" r="4.2" fill="url(#gGem)"/><circle cy="-54" r="10" fill="url(#gSpark)"/><path class="glint" d="M0 -66 L1.1 -55.1 L12 -54 L1.1 -52.9 L0 -42 L-1.1 -52.9 L-12 -54 L-1.1 -55.1Z" fill="#fff"/></g></g></g><g clip-path="url(#cOver)"><g class="ringA"><g transform="translate(-27 34)"><circle r="50" fill="none" stroke="url(#gRing)" stroke-width="6.5"/><circle r="47" fill="none" stroke="rgba(60,35,5,.45)" stroke-width="1"/><path d="M-44 -24A50 50 0 0 1 -12 -48.5" fill="none" stroke="rgba(255,250,225,.9)" stroke-width="1.4" stroke-linecap="round"/><path d="M40 30A50 50 0 0 1 22 45" fill="none" stroke="rgba(255,245,210,.55)" stroke-width="1" stroke-linecap="round"/></g></g></g></svg></span>
         <span class="door-hint" data-ml="മോതിരങ്ങളിൽ തൊടുക">TAP THE RINGS</span>
       </button>
-      <p class="game-msg" id="doorMsg" data-ml="ചടങ്ങുകൾ നടക്കുന്ന സ്ഥലം കാണാൻ മോതിരങ്ങളിൽ തൊടുക">Tap the rings to see where we will celebrate</p>
+      <p class="game-msg" id="doorMsg" data-ml=""></p>
       <button class="btn see" id="seeDetails" type="button" hidden data-ml="വിശദാംശങ്ങൾ കാണുക &lt;span class=&quot;arr&quot; aria-hidden=&quot;true&quot;&gt;&amp;#8595;&lt;/span&gt;">SEE THE DETAILS <span class="arr" aria-hidden="true">&#8595;</span></button>
     </div>
   </section>
@@ -787,7 +867,7 @@ body{font-weight:600}
             <div class="fact"><dt data-ml="സമയം">TIME</dt><dd data-ml="ഉച്ചകഴിഞ്ഞ് 3:00">3:00 PM</dd></div>
             <div class="fact"><dt data-ml="ദേവാലയം">CHURCH</dt><dd data-ml="സെന്റ് ജോർജ് ഓർത്തഡോക്സ് വലിയപള്ളി, വടപുറം">St. George Orthodox Valiyapalli, Vadapuram</dd></div>
           </dl>
-          <p class="note" data-ml="അഭിവന്ദ്യ ഗീവർഗീസ് മാർ പക്കോമിയോസ് മെത്രാപ്പോലീത്ത (മലബാർ ഭദ്രാസനാധിപൻ, മലങ്കര ഓർത്തഡോക്സ് സുറിയാനി സഭ) തിരുമേനിയുടെ അനുഗ്രഹാശിസ്സുകളോടെ നടത്തപ്പെടുന്നു">Solemnised with the blessings of His Grace Geevarghese Mar Pachomios Metropolitan, Diocese of Malabar, Malankara Orthodox Syrian Church</p>
+          <p class="note" data-ml="അഭിവന്ദ്യ ഗീവർഗീസ് മാർ പക്കോമിയോസ് മെത്രാപ്പോലീത്ത (മലബാർ ഭദ്രാസനാധിപൻ, മലങ്കര ഓർത്തഡോക്സ് സുറിയാനി സഭ) തിരുമേനിയുടെ അനുഗ്രഹാശിസ്സുകളോടെ നടത്തപ്പെടുന്നു">Solemnised with the blessings of <b class="hg">His Grace Geevarghese Mar&nbsp;Pachomios Metropolitan</b>, Diocese of Malabar, Malankara Orthodox Syrian Church</p>
           <div class="actions">
             <a class="btn solid" href="https://www.google.com/maps/search/?api=1&amp;query=St.+George+Orthodox+Valiyapalli+Vadapuram" target="_blank" rel="noopener" data-ml="വഴി കാണുക">DIRECTIONS</a>
             <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Wedding+of+Jisiya+%26+Jaison&amp;dates=20270125T093000Z/20270125T143000Z&amp;location=St.+George+Orthodox+Valiyapalli%2C+Vadapuram&amp;details=Holy+Matrimony+at+3%3A00+PM%2C+followed+by+the+reception+at+5%3A00+PM+in+the+Parish+Hall." target="_blank" rel="noopener" data-ml="കലണ്ടറിൽ ചേർക്കുക">ADD TO CALENDAR</a>
@@ -821,8 +901,9 @@ body{font-weight:600}
 
   <div class="link" aria-hidden="true"><i></i><b></b></div>
   <section class="band" id="finale">
-    <div class="wrap">
+    <div class="fin-track" id="finTrack"><div class="wrap fin-pin">
       <div id="heartBox"><svg class="church" id="church" viewBox="0 0 200 210" role="img" aria-label="St. George Orthodox Valiyapalli drawn in light">
+        <g class="ch-fill" aria-hidden="true"><defs><linearGradient id="chW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6dc" stop-opacity=".22"/><stop offset="1" stop-color="#ffd98a" stop-opacity=".08"/></linearGradient><radialGradient id="chL"><stop offset="0" stop-color="#fffbe8"/><stop offset=".5" stop-color="#ffd77a"/><stop offset="1" stop-color="#e09a3a"/></radialGradient><radialGradient id="chH"><stop offset="0" stop-color="#ffe7a8" stop-opacity=".55"/><stop offset="1" stop-color="#ffe7a8" stop-opacity="0"/></radialGradient></defs><ellipse cx="100" cy="150" rx="105" ry="80" fill="url(#chH)"/><path d="M52 200V112L100 72L148 112V200Z" fill="url(#chW)"/><path d="M26 200V102L39 88L52 102V200Z" fill="url(#chW)"/><path d="M174 200V102L161 88L148 102V200Z" fill="url(#chW)"/><path class="ch-glow" d="M84 200V164A16 16 0 0 1 116 164V200Z" fill="url(#chL)"/><circle class="ch-glow" cx="100" cy="116" r="10.5" fill="url(#chL)"/><path class="ch-glow" d="M34 150V134A5 5 0 0 1 44 134V150Z" fill="url(#chL)"/><path class="ch-glow" d="M156 150V134A5 5 0 0 1 166 134V150Z" fill="url(#chL)"/><path d="M66 200V192H134V200Z" fill="#ffe2a0" opacity=".35"/></g>
         <path pathLength="1" d="M10 200H190"/>
         <path pathLength="1" d="M52 200V112L100 72L148 112V200"/>
         <path pathLength="1" d="M100 72V36M88 48H112"/>
@@ -837,17 +918,25 @@ body{font-weight:600}
         <path pathLength="1" d="M156 150V134A5 5 0 0 1 166 134V150"/>
         <path pathLength="1" d="M66 200V192H134V200"/>
       </svg></div>
+      <div class="ribbon-slot" id="ribbonSlot"></div>
       <p class="fin foil" data-rv data-ml="നമുക്ക് അവിടെ കാണാം">See you there</p>
       <p class="fin-line" data-rv data-ml="നിങ്ങളുടെ സാന്നിധ്യവും പ്രാർത്ഥനയുമാണ് ഞങ്ങളുടെ ഈ ദിനത്തെ പൂർണ്ണമാക്കുന്നത്.">Your presence and prayers will make our day complete.</p>
-      <div class="candle-wrap" id="candleWrap" data-rv>
+      <div class="doves" id="doves" aria-hidden="true">
+        <span class="dove l"></span>
+        <span class="dove r"></span>
+        <div class="ribbon" id="ribbon"><span data-ml="നിങ്ങളുടെ പ്രാർത്ഥനകൾക്ക് നന്ദി">Thank you for your prayers</span></div>
+      </div>
+      <div class="candle-wrap" id="candleWrap">
         <button class="candle" id="candle" type="button" aria-label="Touch and hold to light the candle">
           <span class="glow"></span>
           <svg class="ring" viewBox="0 0 90 90" aria-hidden="true"><circle id="candleRing" cx="45" cy="45" r="40" pathLength="1"/></svg>
           <span class="flame"></span><span class="wick"></span><span class="body"></span><span class="hand" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg></span>
         </button>
-        <p class="candle-msg" data-ml="ഞങ്ങളുടെ പുതിയ തുടക്കത്തിനായി ഒരു മെഴുകുതിരി തെളിക്കാൻ തിരിയിൽ തൊട്ട് അമർത്തിപ്പിടിക്കുക">Touch and hold the wick to light a candle for our new beginning</p>
+        <p class="candle-msg" hidden data-ml="ഞങ്ങളുടെ പുതിയ തുടക്കത്തിനായി ഒരു മെഴുകുതിരി തെളിക്കാൻ തിരിയിൽ തൊട്ട് അമർത്തിപ്പിടിക്കുക">Touch and hold the wick to light a candle for our new beginning</p>
         <p class="candle-thanks foil" data-ml="നിങ്ങളുടെ പ്രാർത്ഥനകൾക്ക് നന്ദി">Thank you for your prayers</p>
       </div>
+    </div></div>
+    <div class="wrap fin-after">
       <p class="bigdate" data-rv data-ml="2027 ജനുവരി 25">25 January 2027</p>
       <button class="btn" id="replay" type="button" data-rv data-ml="വീണ്ടും കാണുക">WATCH IT AGAIN</button>
     </div>
@@ -860,6 +949,7 @@ body{font-weight:600}
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const css = getComputedStyle(root);
   const STAR = css.getPropertyValue('--star').trim() || '220,230,255';
+  const MA = css.getPropertyValue('--accent').trim() || '#c9d4e8', MS = css.getPropertyValue('--silver').trim() || '#e8eef8';
   const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const eOut = t => 1 - Math.pow(1 - t, 3);
@@ -886,9 +976,10 @@ body{font-weight:600}
     const jw = J.l + J.r, aw = A.l + A.r, gap = 20;
     let x = (w - (jw * 2 + aw + gap * 2)) / 2;
     const base = h * .66, jMid = base - (J.a - J.d) / 2, aBase = jMid + (A.a - A.d) / 2;
-    g.font = big; g.fillText('J', x + J.l, base); x += jw + gap;
-    g.font = small; g.fillText('&', x + A.l, aBase); x += aw + gap;
-    g.font = big; g.fillText('J', x + J.l, base);
+    const gl = [];
+    g.font = big; g.fillText('J', x + J.l, base); gl.push([300, 500, 'J', x + J.l, base]); x += jw + gap;
+    g.font = small; g.fillText('&', x + A.l, aBase); gl.push([220, 400, '&', x + A.l, aBase]); x += aw + gap;
+    g.font = big; g.fillText('J', x + J.l, base); gl.push([300, 500, 'J', x + J.l, base]);
     const d = g.getImageData(0, 0, w, h).data, pts = [];
     let x0 = w, y0 = h, x1 = 0, y1 = 0;
     for (let y = 0; y < h; y += 3) for (let xx = 0; xx < w; xx += 3) if (d[(y * w + xx) * 4 + 3] > 120) {
@@ -907,16 +998,28 @@ body{font-weight:600}
       near.forEach(([j]) => { if (i < j) links.push([i, j]); });
     });
     mono.nodes = nodes; mono.links = links;
+    const deg = nodes.map(() => 0); links.forEach(([i, j]) => { deg[i]++; deg[j]++; });
+    let anc = nodes.map((n, i) => [i, deg[i]]).filter(v => v[1] <= 1).map(v => v[0]);
+    const ext = (f) => nodes.reduce((b, n, i) => f(n) > f(nodes[b]) ? i : b, 0);
+    anc.push(ext(n => -n[1]), ext(n => n[1]), ext(n => -n[0]), ext(n => n[0]));
+    mono.anchors = [...new Set(anc)].slice(0, 14);
+    mono.glyphs = gl.map(([sz, wt, ch, gx, gy]) => [sz, wt, ch, gx - x0, gy - y0]);
   }
   sampleMonogram();
   if (document.fonts && document.fonts.load) Promise.all([document.fonts.load('500 300px "Playfair Display"'), document.fonts.load('400 220px "Playfair Display"')]).then(sampleMonogram).catch(() => {});
   const cv = document.getElementById('sky'), ctx = cv.getContext('2d');
-  let W = 0, H = 0, dpr = 1, cx = 0, cy = 0;
+  // a soft round glow, drawn once, reused for the jewel stars
+  const glowS = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+    const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.16, `rgba(${STAR},.95)`);
+    gr.addColorStop(.42, `rgba(${STAR},.22)`); gr.addColorStop(1, `rgba(${STAR},0)`); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c; })();
+  let W = 0, H = 0, dpr = 1, cx = 0, cy = 0, hiRes = true;
   function resize() {
-    dpr = Math.min(devicePixelRatio || 1, innerWidth < 700 ? 1.25 : 2); W = innerWidth; H = innerHeight; cx = W / 2; cy = H / 2;
+    // full sharpness while the J & J is on screen, lighter further down so scrolling stays smooth
+    dpr = Math.min(devicePixelRatio || 1, hiRes ? 3 : (innerWidth < 700 ? 1.25 : 2)); W = innerWidth; H = innerHeight; cx = W / 2; cy = H / 2;
     cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resize(); addEventListener('resize', resize);
+  addEventListener('scroll', () => { const want = scrollY < innerHeight * 1.05; if (want !== hiRes) { hiRes = want; resize(); } }, { passive: true });
   // idle: a slow 3D starfield seen from inside
   P.forEach(p => { p.px = (Math.random() - .5) * 2; p.py = (Math.random() - .5) * 2; p.pz = Math.random(); });
 
@@ -989,20 +1092,27 @@ body{font-weight:600}
     const sc = Math.min(box.width / mono.w, box.height / mono.h), ox = box.left + (box.width - mono.w * sc) / 2, oy = box.top + (box.height - mono.h * sc) / 2;
     const hs = ease(clamp(scrollY / (hero.offsetHeight * .75), 0, 1));             // portrait -> sky
     const fr = RC.finale || finale.getBoundingClientRect();
-    const fs = ease(clamp((H - fr.top) / (H * 1.1), 0, 1));                         // sky -> heart
+    const fs = RC.tF !== undefined ? ease(clamp((RC.tF - .2) / .45, 0, 1)) : ease(clamp((H - fr.top) / (H * 1.1), 0, 1));                         // sky -> heart
     const hb = RC.heart || heartBox.getBoundingClientRect();
     const hcx = hb.left + hb.width / 2, hcy = hb.top + hb.height * .42, hr = Math.min(hb.width, hb.height) * .55;
     const formT = mode === 'form' ? (now - t0) / 1000 : 9;
     const paths = Array.from({ length: BINS }, () => new Path2D());
     const big = new Path2D();
     const amb = H * 1.5, sy = scrollY;
+    const mcx = ox + mono.w * sc / 2, mcy = oy + mono.h * sc / 2, mono1 = 1 - hs;
+    const burst = Math.sin(hs * Math.PI) * .9;                                       // stars fly outward as the J & J opens into the sky
+    const waveX = ((now * .00032) % 1.7 - .35) * mono.w, waveW = mono.w * .075;      // a slow wave of light across the letters
+    const shimmerOn = mode !== 'form' || formT > 2.6;
+    const jewels = [], trail = new Path2D(), trailOn = hs > .02 && hs < .93 && !reduce;
     for (let i = 0; i < N; i++) {
       const p = P[i];
       const homeX = ox + p.hx * sc, homeY = oy + p.hy * sc;
       let ay = (p.ay * amb - sy * p.z * .35) % amb; if (ay < 0) ay += amb; ay -= H * .25;
       let tx = homeX + (p.ax * W - homeX) * hs, ty = homeY + (ay - homeY) * hs;
+      if (burst > .001) { tx += (homeX - mcx) * burst * (1.1 + p.z); ty += (homeY - mcy) * burst * (1.1 + p.z); }
       let a = p.b * (.55 + .45 * Math.sin(now * .002 * (1 + p.z) + p.tw));
-      let sz = (1.25 + p.b * .6) * (1 - hs) + (.6 + p.z * 1.3) * hs;
+      if (shimmerOn && mono1 > .02) { const dw = (p.hx - waveX) / waveW; a *= 1 + 1.3 * Math.exp(-dw * dw) * mono1; }
+      let sz = (.7 + p.b * p.b * 2.3) * mono1 + (.6 + p.z * 1.3) * hs;
       if (p.keep) {
         a *= 1 - hs * (.55 - .25 * p.z);
         if (fs > 0) { tx += (hcx + p.kx * hr - tx) * fs; ty += (hcy + p.ky * hr - ty) * fs; a = a + (Math.max(a, .55) - a) * fs; }
@@ -1011,8 +1121,12 @@ body{font-weight:600}
         if (a < .01) continue;
       }
       if (mode === 'form') {
-        const k = eOut(clamp((formT - p.d2) / .9, 0, 1));
-        p.x = tx; p.y = ty; a *= k; sz *= .5 + .5 * k;
+        // the stars swirl in like a small turning galaxy, then settle into the letters
+        const st = p.d2 * .55, k = eOut(clamp((formT - st) / 1.5, 0, 1));
+        if (formT < st) continue;
+        const ang = p.tw + (1 - k) * 4.4, rad = (1 - k) * Math.max(W, H) * .55 * (.45 + p.z * .6);
+        p.x = tx + (mcx + Math.cos(ang) * rad - tx) * (1 - k); p.y = ty + (mcy + Math.sin(ang) * rad * .8 - ty) * (1 - k);
+        a *= .25 + .75 * k; sz *= .6 + .4 * k;
       } else {
         if (!reduce) {
           p.vx += (tx - p.x) * .075; p.vy += (ty - p.y) * .075;
@@ -1023,12 +1137,33 @@ body{font-weight:600}
       }
       if (p.y < -10 || p.y > H + 10) continue;
       const bin = Math.min(BINS - 1, (clamp(a, 0, 1) * BINS) | 0);
-      paths[bin].rect(p.x - sz / 2, p.y - sz / 2, sz, sz);
+      if (hs < .9) { paths[bin].moveTo(p.x + sz / 2, p.y); paths[bin].arc(p.x, p.y, sz / 2, 0, 6.283); }   // round diamond-dust stars
+      else paths[bin].rect(p.x - sz / 2, p.y - sz / 2, sz, sz);
+      if (i % 11 === 0 && mono1 > .05 && a > .35) jewels.push(p.x, p.y, sz * 6.5, a * mono1);
+      if (trailOn && i % 4 === 0 && p.px !== undefined) { let dx = p.px - p.x, dy = p.py - p.y; const L = Math.hypot(dx, dy); if (L > .5) { const m = Math.min(L, 16) / L; trail.moveTo(p.x, p.y); trail.lineTo(p.x + dx * m, p.y + dy * m); } }
+      p.px = p.x; p.py = p.y;
       if (i % 23 === 0 && a > .6) { big.moveTo(p.x + sz * 1.6, p.y); big.arc(p.x, p.y, sz * 1.6, 0, 6.283); }
     }
+    // crisp, solid letters under the stars, so the J & J is sharp on every screen
+    const ca = (1 - hs) * (mode === 'form' ? clamp((formT - 1.2) / 1.4, 0, 1) : 1);
+    if (ca > .01 && mono.glyphs) {
+      const gr = ctx.createLinearGradient(ox, oy, ox + mono.w * sc, oy + mono.h * sc);
+      gr.addColorStop(0, MA); gr.addColorStop(.3, '#ffffff'); gr.addColorStop(.5, MA); gr.addColorStop(.72, MS); gr.addColorStop(.86, '#ffffff'); gr.addColorStop(1, MA);
+      ctx.save(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = .82 * ca; ctx.fillStyle = gr;
+      ctx.shadowColor = `rgba(${STAR},.55)`; ctx.shadowBlur = 16; ctx.textBaseline = 'alphabetic';
+      for (const [gsz, gwt, ch, gx, gy] of mono.glyphs) { ctx.font = `${gwt} ${gsz * sc}px "Playfair Display", "Bodoni 72", Didot, Georgia, serif`; ctx.fillText(ch, ox + gx * sc, oy + gy * sc); }
+      ctx.restore();
+    }
     ctx.fillStyle = `rgb(${STAR})`;
-    for (let b = 1; b < BINS; b++) { ctx.globalAlpha = (b + .5) / BINS; ctx.fill(paths[b]); }
+    for (let b = 1; b < BINS; b++) { ctx.globalAlpha = (b + .5) / BINS * (1 - .62 * ca); ctx.fill(paths[b]); }
     ctx.globalAlpha = .25; ctx.fill(big);
+    for (let j = 0; j < jewels.length; j += 4) { ctx.globalAlpha = Math.min(1, jewels[j + 3]); const s2 = jewels[j + 2]; ctx.drawImage(glowS, jewels[j] - s2 / 2, jewels[j + 1] - s2 / 2, s2, s2); }
+    if (trailOn) { ctx.globalAlpha = .32 * Math.sin(hs * Math.PI); ctx.strokeStyle = `rgb(${STAR})`; ctx.lineWidth = .9; ctx.lineCap = 'round'; ctx.stroke(trail); }
+    if (hs > 0 && hs < .32 && !reduce) {
+      const fa = Math.sin(hs / .32 * Math.PI) * .5, fr2 = mono.w * sc * (.6 + hs * 1.6);
+      const fg = ctx.createRadialGradient(mcx, mcy, 0, mcx, mcy, fr2); fg.addColorStop(0, `rgba(255,255,255,${fa})`); fg.addColorStop(.3, `rgba(${STAR},${fa * .45})`); fg.addColorStop(1, `rgba(${STAR},0)`);
+      ctx.globalAlpha = 1; ctx.fillStyle = fg; ctx.fillRect(mcx - fr2, mcy - fr2, fr2 * 2, fr2 * 2);
+    }
     // constellation lines over the monogram
     const la = (1 - hs) * (mode === 'form' ? clamp((formT - 1.8) / 1, 0, 1) : 1);
     if (la > .01 && mono.nodes.length) {
@@ -1037,6 +1172,15 @@ body{font-weight:600}
       for (const n of mono.nodes) { const x = ox + n[0] * sc, y = oy + n[1] * sc; np.moveTo(x + 2.2, y); np.arc(x, y, 2.2, 0, 6.283); }
       ctx.globalAlpha = .28 * la; ctx.strokeStyle = `rgb(${STAR})`; ctx.lineWidth = .7; ctx.stroke(lp);
       ctx.globalAlpha = .9 * la * (.7 + .3 * Math.sin(now * .003)); ctx.fill(np);
+      if (mono.anchors) {
+        const fl = new Path2D();
+        mono.anchors.forEach((idx, q) => {
+          const n = mono.nodes[idx]; if (!n) return; const x = ox + n[0] * sc, y = oy + n[1] * sc, tw = .55 + .45 * Math.sin(now * .0035 + q * 1.9), L = 11 * tw;
+          ctx.globalAlpha = la * tw; ctx.drawImage(glowS, x - 13 * tw, y - 13 * tw, 26 * tw, 26 * tw);
+          fl.moveTo(x - L, y); fl.lineTo(x + L, y); fl.moveTo(x, y - L * 1.3); fl.lineTo(x, y + L * 1.3);
+        });
+        ctx.globalAlpha = .75 * la; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = .8; ctx.stroke(fl);
+      }
     }
     // shooting star (catchable)
     if (!reduce && mode === 'live' && !shoot && now > nextShoot) {
@@ -1226,9 +1370,10 @@ body{font-weight:600}
   /* read every position first, then write styles: no layout thrash while scrolling */
   /* page geometry is measured once (and again only when the layout really changes), never during scrolling */
   let geo = null;
+  const dateScene = document.getElementById('dateScene'), findSec = document.getElementById('find');
   const box0 = el => { let t = 0, l = 0, e = el; while (e) { t += e.offsetTop; l += e.offsetLeft; e = e.offsetParent; } return { t, l, w: el.offsetWidth, h: el.offsetHeight }; };
   function measure() {
-    geo = { pbox: box0(pbox), finale: box0(finale), heart: box0(heartBox), links: links.map(box0), rvs: rvs.map(box0), vt: box0(vt), souls: box0(souls),
+    geo = { dateS: box0(dateScene), find: box0(findSec), fin: box0(document.getElementById('finTrack')), pbox: box0(pbox), finale: box0(finale), heart: box0(heartBox), links: links.map(box0), rvs: rvs.map(box0), vt: box0(vt), souls: box0(souls),
       docH: document.documentElement.scrollHeight, ow: orbit.offsetWidth || orbit.getBoundingClientRect().width || 1 };
   }
   const invalidate = () => { geo = null; lastScroll = -1; };
@@ -1241,14 +1386,80 @@ body{font-weight:600}
     lastScroll = scrollY; lastW = innerWidth;
     if (!geo) measure();
     const sy = scrollY, at = g => ({ top: g.t - sy, bottom: g.t + g.h - sy, height: g.h, left: g.l, width: g.w });
-    RC.pbox = at(geo.pbox); RC.finale = at(geo.finale); RC.heart = at(geo.heart);
+    RC.pbox = at(geo.pbox); RC.finale = at(geo.finale); RC.heart = heartBox.getBoundingClientRect();
+    const prog = g => clamp((sy - g.t) / Math.max(1, g.h - H), 0, 1);
+    RC.tD = prog(geo.dateS); RC.tR = prog(geo.find); RC.tF = prog(geo.fin);
     const linkR = geo.links.map(at), rvR = geo.rvs.map(at), vr = at(geo.vt), soulsR = at(geo.souls);
     const docH = geo.docH, owR = geo.ow;
     const coupleR = { get left() { return document.getElementById('couple').getBoundingClientRect().left; } };
     Object.defineProperties(coupleR, { top: { get: () => document.getElementById('couple').getBoundingClientRect().top }, width: { get: () => document.getElementById('couple').getBoundingClientRect().width }, height: { get: () => document.getElementById('couple').getBoundingClientRect().height } });
     scenesWrite(linkR, rvR, vr, docH, soulsR, owR, coupleR);
   }
+  /* ---------- the three scroll scenes ---------- */
+  const calTime = document.querySelector('.cal-time'), calNote = document.querySelector('.cal-note');
+  let calBurst = false, ringBurst = false, eventsOpen = false, finLit = false;
+  const rStarA = document.querySelector('.rstar.a'), rStarB = document.querySelector('.rstar.b');
+  const dbox = document.getElementById('dbox'), dcount = document.querySelector('.dcount');
+  const doveL = document.querySelector('.dove.l'), doveR = document.querySelector('.dove.r'), ribbon = document.getElementById('ribbon'); let ribBurst = false;
+  function scrollScenes() {
+    // 1. a shooting star dives in, then writes the date in light
+    const tD = RC.tD, dw = document.getElementById('dwrite'), dt = document.getElementById('dtext'), ds = document.getElementById('dstar');
+    const dW = dw.offsetWidth, dH = dw.offsetHeight, tl = dt.offsetLeft, tw = dt.offsetWidth, my2 = dt.offsetTop + dt.offsetHeight * .55;
+    const inK = ease(clamp(tD / .12, 0, 1)), wr = clamp((tD - .12) / .42, 0, 1), we = wr;
+    let sx2, sy2;
+    if (wr <= 0) { sx2 = -innerWidth * .3 + (tl + innerWidth * .3) * inK; sy2 = -innerHeight * .35 + (my2 + innerHeight * .35) * inK; }
+    else { sx2 = tl + tw * we; sy2 = my2 + Math.sin(we * Math.PI * 4) * dH * .06; }
+    const sOp = tD <= .005 ? 0 : wr >= 1 ? Math.max(0, 1 - (tD - .54) / .06) : 1;
+    ds.style.transform = `translate(${sx2.toFixed(1)}px,${sy2.toFixed(1)}px) rotate(${(tD * 400).toFixed(0)}deg)`; ds.style.opacity = sOp.toFixed(3);
+    setIf(ds, '--tl', (wr <= 0 ? inK > 0 && inK < 1 ? .9 : 0 : wr < 1 ? .6 : 0).toFixed(2));
+    setIf(ds, '--ta', (wr <= 0 ? -35 - tD * 400 : -tD * 400).toFixed(0) + 'deg');
+    setIf(dt, '--w', clamp(we - .01, 0, 1).toFixed(3));
+    if (sOp > .05 && !reduce) { const br = dw.getBoundingClientRect(); for (let k = 0; k < 4; k++) sparks.push({ x: br.left + sx2 + (Math.random() - .5) * 10, y: br.top + sy2 + (Math.random() - .5) * 10, vx: (Math.random() - .5) * 1.2, vy: Math.random() * .8 - .2, r: .9 + Math.random() * 2, life: 30 + Math.random() * 40, c: TSPK[(Math.random() * TSPK.length) | 0], ng: 1, st: Math.random() < .7, ph: Math.random() * 6 }); }
+    const co = clamp((tD - .58) / .1, 0, 1); setIf(calTime, '--o', co.toFixed(3)); setIf(calNote, '--o', co.toFixed(3));
+    setIf(dbox, '--fr', ease(clamp(tD / .2, 0, 1)).toFixed(3)); setIf(dbox, '--gl', clamp((tD - .45) / .2, 0, 1).toFixed(3));
+    setIf(dcount, '--cdo', ease(clamp((tD - .7) / .15, 0, 1)).toFixed(3));
+    if (wr >= 1 && !calBurst) { calBurst = true; const br = dw.getBoundingClientRect(); burstAt(br.left + tl + tw, br.top + my2, 80, 4); chime(false); }
+    if (tD < .55) calBurst = false;
+    // 2. rings: two stars fly in, flash into rings, the rings link, the cross rises
+    const tR = RC.tR; window.__ringP = tR;
+    const st = doors.querySelector('.rings-stage'), sw = st.offsetWidth, sh = st.offsetHeight;
+    const fly = clamp(tR / .3, 0, 1), fe = ease(fly), appear = clamp((tR - .27) / .12, 0, 1);
+    const starPos = (sx, sy, ex, ey, sg) => [sx + (ex - sx) * fe, sy + (ey - sy) * fe - Math.sin(fly * Math.PI) * .28 * sh * sg];
+    const [ax, ay] = starPos(-.35 * sw, .1 * sh, .26 * sw, .7 * sh, 1), [bx, by] = starPos(1.35 * sw, .25 * sh, .74 * sw, .71 * sh, -1);
+    const so = (tR > .02 ? 1 : 0) * (1 - appear), ss = 1 + appear * 2.2 + Math.sin(fly * Math.PI) * .3;
+    rStarA.style.transform = `translate(${ax.toFixed(1)}px,${ay.toFixed(1)}px) scale(${ss.toFixed(2)}) rotate(${(fly * 220).toFixed(0)}deg)`; rStarA.style.opacity = so.toFixed(3);
+    rStarB.style.transform = `translate(${bx.toFixed(1)}px,${by.toFixed(1)}px) scale(${ss.toFixed(2)}) rotate(${(-fly * 220).toFixed(0)}deg)`; rStarB.style.opacity = so.toFixed(3);
+    const joined = tR > .7;
+    doors.classList.toggle('open', joined); doorsOpen = joined;
+    if (tR > .74 && !ringBurst) { ringBurst = true; const r = st.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + r.height * .18, 70, 2.6); chime(true); }
+    if (tR < .6) ringBurst = false;
+    doorMsg.textContent = tR > .8 ? L('Joined by God. Here is where we will celebrate', 'ദൈവം യോജിപ്പിച്ചു. ഇതാ, ചടങ്ങുകൾ നടക്കുന്ന ഇടം') : '';
+    doorMsg.classList.toggle('win', tR > .8);
+    if (tR > .82 && !eventsOpen) { eventsOpen = true; eventsGrid.classList.remove('locked'); eventsGrid.classList.add('emerge'); }
+    // 3. finale: the candle lights, lanterns float up and become stars
+    const tF = RC.tF;
+    const lightNow = tF > .06;
+    if (lightNow !== finLit) { finLit = lightNow; candle.classList.toggle('lit', lightNow); if (lightNow) { const r = candle.getBoundingClientRect(); burstAt(r.left + r.width / 2, r.top + 30, 50, 3); chime(true); } }
+    setIf(candleWrap, '--th', clamp((tF - .8) / .12, 0, 1).toFixed(3));
+    // two doves fly in from both sides carrying a gold ribbon, which opens between them
+    const slot = document.getElementById('ribbonSlot').getBoundingClientRect(), dvBox = document.getElementById('doves').getBoundingClientRect();
+    const ry = slot.top + slot.height / 2 - dvBox.top, rwid = Math.min(dvBox.width * .76, 340), rx0 = (dvBox.width - rwid) / 2;
+    const fl = ease(clamp((tF - .04) / .42, 0, 1)), un = ease(clamp((tF - .42) / .26, 0, 1));
+    const bob = Math.sin(performance.now() / 420) * 4 * fl;
+    const lx = -dvBox.width * .25 + (rx0 + 2 + dvBox.width * .25) * fl, rxx = dvBox.width * 1.25 + (rx0 + rwid - 2 - dvBox.width * 1.25) * fl;
+    const ly = ry - dvBox.height * .3 * (1 - fl) + bob * .5, ryy = ry - dvBox.height * .22 * (1 - fl) - bob * .5;
+    if (tF > .03 && fl < 1 && !reduce) for (const [qx, qy] of [[lx, ly], [rxx, ryy]]) for (let k = 0; k < 3; k++) sparks.push({ x: dvBox.left + qx + (Math.random() - .5) * 10, y: dvBox.top + qy + (Math.random() - .5) * 10, vx: (Math.random() - .5) * 1, vy: Math.random() * .7 - .2, r: .9 + Math.random() * 2, life: 30 + Math.random() * 36, c: TSPK[(Math.random() * TSPK.length) | 0], ng: 1, st: Math.random() < .7, ph: Math.random() * 6 });
+    const tw2 = 1 + .15 * Math.sin(performance.now() / 260);
+    doveL.style.transform = `translate(${lx.toFixed(1)}px,${ly.toFixed(1)}px) rotate(${(fl * 200).toFixed(1)}deg) scale(${tw2.toFixed(3)})`; doveL.style.opacity = tF > .03 ? '1' : '0';
+    doveR.style.transform = `translate(${rxx.toFixed(1)}px,${ryy.toFixed(1)}px) rotate(${(-fl * 200).toFixed(1)}deg) scale(${tw2.toFixed(3)})`; doveR.style.opacity = tF > .03 ? '1' : '0';
+    ribbon.style.width = rwid.toFixed(0) + 'px';
+    ribbon.style.transform = `translate(${rx0.toFixed(1)}px,${ry.toFixed(1)}px) scaleX(${Math.max(.02, un).toFixed(3)})`;
+    ribbon.style.opacity = un > 0 ? '1' : '0'; setIf(ribbon, '--u', clamp((un - .55) / .45, 0, 1).toFixed(3));
+    if (un >= 1 && !ribBurst) { ribBurst = true; const rb = ribbon.getBoundingClientRect(); burstAt(rb.left + rb.width / 2, rb.top + rb.height / 2, 90, 4); chime(true); }
+    if (tF < .35) ribBurst = false;
+  }
   function scenesWrite(linkR, rvR, vr, docH, soulsR, owR, coupleR) {
+    scrollScenes();
     // two stars spiral into one
     const r = soulsR;
     const soulsOn = r.bottom > -H * .2 && r.top < H * 1.2;
@@ -1282,8 +1493,8 @@ body{font-weight:600}
     });
     // the church draws itself inside the heart
     const fr2 = RC.finale;
-    const cpr = reduce ? 1 : clamp(((H - fr2.top) / (H * 1.1) - .45) / .5, 0, 1);
-    church.style.setProperty('--c', (1 - cpr).toFixed(3));
+    const cpr = reduce ? 1 : clamp(RC.tF / .4, 0, 1);
+    church.style.setProperty('--c', (1 - cpr).toFixed(3)); setIf(church, '--lit', clamp((cpr - .75) / .25, 0, 1).toFixed(3));
     // depth reveals
     const atEnd = scrollY >= docH - H - 4;
     rvs.forEach((el, i) => {
@@ -1341,16 +1552,7 @@ body{font-weight:600}
     requestAnimationFrame(step);
   }
   seeBtn.addEventListener('click', () => { const t = document.getElementById('eventsGrid').getBoundingClientRect().top + scrollY - 70; glide(t, reduce ? 1 : 1500); });
-  doors.addEventListener('click', () => {
-    if (doorsOpen) return; doorsOpen = true;
-    doors.classList.add('open'); doors.setAttribute('aria-label', 'The rings are joined');
-    audioStart(); chime(true);
-    const r = doors.querySelector('.rings-stage').getBoundingClientRect();
-    setTimeout(() => burstAt(r.left + r.width / 2, r.top + r.height * .18, 70, 2.6), 2000);
-    doorMsg.textContent = L('Joined by God. Here is where we will celebrate', 'ദൈവം യോജിപ്പിച്ചു. ഇതാ, ചടങ്ങുകൾ നടക്കുന്ന ഇടം'); doorMsg.classList.add('win');
-    setTimeout(() => { eventsGrid.classList.remove('locked'); eventsGrid.classList.add('emerge'); }, 1900);
-    setTimeout(() => { seeBtn.hidden = false; requestAnimationFrame(() => seeBtn.classList.add('show')); }, 2500);
-  });
+  doors.addEventListener('click', () => { if (geo) glide(geo.find.t + geo.find.h - H * 1.02, 2000); });
 
   /* ---------- interactive: catch a shooting star ---------- */
   const toast = document.getElementById('toast'), toastMsg = document.getElementById('toastMsg');
@@ -1459,6 +1661,14 @@ body{font-weight:600}
   }));
   document.getElementById('langBtn').addEventListener('click', () => applyLang(lang === 'ml' ? 'en' : 'ml'));
 
+  document.getElementById('dwrite').addEventListener('click', () => { if (geo) glide(geo.dateS.t + geo.dateS.h - H * 1.02, 2200); });
+  candle.addEventListener('click', () => { if (geo) glide(geo.fin.t + geo.fin.h - H * 1.02, 2200); });
+
+  /* His Grace's name on the opening screen: always one line, as large as fits */
+  const fitHG = () => { const b = document.querySelector('#hero .bishop b'); if (!b) return; b.style.fontSize = '';
+    const max = Math.min(innerWidth - 28, 560), w = b.scrollWidth; if (w > max) b.style.fontSize = (parseFloat(getComputedStyle(b).fontSize) * max / w).toFixed(2) + 'px'; };
+  fitHG(); addEventListener('resize', fitHG); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHG);
+
   /* ---------- guides ---------- */
   const sHint = document.getElementById('scrollHint'); let hintReady = false, hintGone = false, idleT = 0;
   const hideHint = () => { sHint.classList.remove('show'); document.body.classList.remove('hinting'); };
@@ -1470,8 +1680,9 @@ body{font-weight:600}
       if (root2.classList.contains('locked') || !root2.classList.contains('live')) return armHint();
       const left = root2.scrollHeight - innerHeight - scrollY;
       if (left < innerHeight * .6) return;               // nearly at the end: nothing more to find
-      if (scrollY < 40 && !document.getElementById('gift').classList.contains('open') && performance.now() - liveAt < 12000) return armHint(); // let them try the ribbon first
-      sHint.classList.add('show'); if (scrollY < innerHeight * .5) document.body.classList.add('hinting');
+      if (scrollY < 40 && performance.now() - liveAt < 4000) return armHint(); // let them try the ribbon first
+      sHint.classList.add('show'); document.body.classList.toggle('at-top', scrollY < innerHeight * .5);
+      clearTimeout(sHint._t); sHint._t = setTimeout(hideHint, 4500);
     }, scrollY < 40 ? 2600 : 3200);
   };
   let liveAt = performance.now();
@@ -1616,7 +1827,11 @@ async function init() {
     const T = now / 1000;
     size();
     if (open && tJoin < 1) { if (!t0) t0 = now; tJoin = Math.min(1, (now - t0) / 2100); }
-    const e = ease(cl(tJoin / .8, 0, 1));
+    // scroll-driven: the page sets window.__ringP (0..1) as the guest scrolls through the scene
+    const SP = typeof window.__ringP === 'number' ? window.__ringP : null;
+    const appearK = SP === null ? 1 : cl((SP - .27) / .12, 0, 1);
+    const e = SP === null ? ease(cl(tJoin / .8, 0, 1)) : ease(cl((SP - .38) / .3, 0, 1));
+    const sA = appearK <= 0 ? .001 : .2 + .8 * back(appearK); ringA.scale.setScalar(sA); ringB.scale.setScalar(sA); ringA.visible = ringB.visible = appearK > 0;
     // apart: each ring turns slowly so the light runs round the gold
     e0.set(.25 + Math.sin(T * .7) * .12, 1.05 + T * .55, .1); qa.setFromEuler(e0).slerp(qA1, e);
     e0.set(.75 + Math.sin(T * .6 + 1) * .1, -1.05 - T * .5, -.08); qb.setFromEuler(e0).slerp(qB1, e);
@@ -1626,7 +1841,7 @@ async function init() {
     pair.rotation.y = Math.sin(T * .45) * .28 * e; pair.rotation.x = Math.sin(T * .33) * .06 * e;
     pair.position.y = -.55 + Math.sin(T * .9) * .04;
     // the cross rises once the rings are joined
-    const c = cl((tJoin - .55) / .45, 0, 1);
+    const c = SP === null ? cl((tJoin - .55) / .45, 0, 1) : cl((SP - .66) / .2, 0, 1);
     goldX.opacity = cl(c * 1.6, 0, 1); cross.visible = c > 0;
     crossHolder.position.set(0, 1.1 + 1.15 * ease(c), -.4);
     crossHolder.scale.setScalar(.45 + .38 * back(c));
